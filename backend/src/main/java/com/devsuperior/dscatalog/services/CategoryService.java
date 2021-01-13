@@ -32,6 +32,13 @@ public class CategoryService {
 			Category category = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Entity not found"));
 			return new CategoryDTO(category);
 		}
+
+		@Transactional
+		public CategoryDTO insert(CategoryDTO categoryDTO) {
+			Category entity = new Category(categoryDTO);
+			entity = categoryRepository.save(entity);
+			return new CategoryDTO(entity);
+		}
 }
 
 
