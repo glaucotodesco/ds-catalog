@@ -16,7 +16,7 @@ public class Category implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idLong;
+	private Long id;
 	
 	private String name;
 	
@@ -24,18 +24,18 @@ public class Category implements Serializable{
 		
 	}
 
-	public Category(Long idLong, String name) {
+	public Category(Long id, String name) {
 		super();
-		this.idLong = idLong;
+		this.id = id;
 		this.name = name;
 	}
 
-	public Long getIdLong() {
-		return idLong;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdLong(Long idLong) {
-		this.idLong = idLong;
+	public void setIdg(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -48,14 +48,14 @@ public class Category implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Category [idLong=" + idLong + ", name=" + name + "]";
+		return "Category [idLong=" + id + ", name=" + name + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idLong == null) ? 0 : idLong.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -68,10 +68,10 @@ public class Category implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		if (idLong == null) {
-			if (other.idLong != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idLong.equals(other.idLong))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
