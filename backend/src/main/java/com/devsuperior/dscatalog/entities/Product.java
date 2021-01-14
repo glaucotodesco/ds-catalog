@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.devsuperior.dscatalog.dto.ProductDTO;
+
 
 @Entity
 @Table(name="tb_product")
@@ -58,6 +60,16 @@ public class Product implements Serializable{
         this.imgUrl = imgUrl;
         this.date = date;
     }
+
+    public Product(ProductDTO productDTO){
+        id = productDTO.getId();
+        name = productDTO.getName();
+        description = productDTO.getDescription();
+        price = productDTO.getPrice();
+        imgUrl = productDTO.getImgUrl();
+        date = productDTO.getDate();
+    }
+
 
     public Long getId() {
         return id;
