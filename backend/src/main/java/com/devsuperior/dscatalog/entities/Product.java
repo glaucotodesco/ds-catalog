@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
@@ -40,6 +42,12 @@ public class Product implements Serializable{
    
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant createdAt;
+	
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant updatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -127,6 +135,16 @@ public class Product implements Serializable{
         this.categories = categories;
     }
 
+    @PrePersist
+	public void prePersist() {
+		createdAt = Instant.now();
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = Instant.now();
+    }
+    
     @Override
     public String toString() {
         return "Product [date=" + date + ", description=" + description + ", id=" + id + ", imgUrl=" + imgUrl
