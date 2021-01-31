@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as ArrowIcon } from '../../../../core/assets/images/arrow.svg';
 import { ReactComponent as ProductImage } from '../../../../core/assets/images/product.svg';
 import ProductPrice from '../../../../core/components/ProductPrice';
+import { makeRequest } from '../../../../core/request';
+import { Product } from '../../../../core/types/Products';
 import './styles.scss';
 
 type ParamsType = {
@@ -13,7 +15,14 @@ const ProductDetails = () => {
 
     const { productId } = useParams<ParamsType>();
 
-    console.log(productId);
+    const [product,setProduct] = useState<Product>();
+    
+    
+
+    useEffect(() => {
+        makeRequest({ url: `/products/${productId}`})
+            .then(response => setProduct(response.data));
+    }, [productId]);
 
     return (
         <div className="product-details-container ">
@@ -30,9 +39,12 @@ const ProductDetails = () => {
                             <ProductImage className="product-details-image" />
                         </div>
                         <h1 className="product-details-name">
-                            Computador Desktop - Intel Core i7
+                            {product?.name}
                         </h1>
-                        <ProductPrice price="2.999.00"/>
+                        {
+                            product?.price &&  <ProductPrice price={product.price}/>
+                        }
+                       
                     </div>
                     <div className="col-6 product-details-card">
                         <h1 className="product-description-title">Descrição do Produto</h1>
