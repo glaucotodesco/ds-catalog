@@ -2,9 +2,13 @@ import React from "react"
 import ContentLoader from "react-content-loader"
 import { generateList } from "core/utils/list"
 
-const ProductCardLoader = () => {
+type Props = {
+    items: number;
+}
 
-    const loaderItens = generateList(5);
+const ProductCardLoader = ({items} : Props) => {
+
+    const loaderItens = generateList(items);
 
     return (
         <>
