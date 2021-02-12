@@ -14,42 +14,44 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import com.devsuperior.dscatalog.dto.ProductDTO;
-import com.devsuperior.dscatalog.entities.Category;
-import com.devsuperior.dscatalog.entities.Product;
-import com.devsuperior.dscatalog.repositories.CategoryRepository;
-import com.devsuperior.dscatalog.repositories.ProductRepository;
+import com.devsuperior.dscatalog.dto.UserDTO;
+import com.devsuperior.dscatalog.entities.Role;
+import com.devsuperior.dscatalog.entities.User;
+import com.devsuperior.dscatalog.repositories.RoleRepository;
+import com.devsuperior.dscatalog.repositories.UserRepository;
 
 @Service
-public class ProductService {
+public class UserService {
 
 	@Autowired
-	private ProductRepository repository;
+	private UserRepository repository;
 
+	
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private RoleRepository roleRepository;
+
 
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPage(PageRequest pageRequest) {
-		Page<Product> list = repository.findAll(pageRequest);
-		return list.map(p -> new ProductDTO(p));
+	public Page<UserDTO> findAllPage(PageRequest pageRequest) {
+		Page<User> list = repository.findAll(pageRequest);
+		return list.map(u -> new UserDTO(u));
 	}
 
 	@Transactional(readOnly = true)
-	public ProductDTO findById(Long id) {
-		Optional<Product> op = repository.findById(id);
-		Product entity = op
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity Product not found"));
-		return new ProductDTO(entity, entity.getCategories());
+	public UserDTO findById(Long id) {
+		Optional<User> op = repository.findById(id);
+		User entity = op
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity User not found"));
+		return new UserDTO(entity);
 	}
 
 	@Transactional
-	public ProductDTO insert(ProductDTO dto) {
+	public UserDTO insert(UserDTO dto) {
 		try {
-			Product entity = new Product(dto);
+			User entity = new User();
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new ProductDTO(entity);
+			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -57,33 +59,30 @@ public class ProductService {
 	}
 
 	@Transactional
-	public ProductDTO update(Long id, ProductDTO dto) {
+	public UserDTO update(Long id, UserDTO dto) {
 		try {
-			Product entity = repository.getOne(id);
+			User entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new ProductDTO(entity);
+			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	
 	}
 
-	private void copyDtoToEntity(ProductDTO dto, Product entity) {
-		entity.setDate(dto.getDate());
-		entity.setDescription(dto.getDescription());
-		entity.setImgUrl(dto.getImgUrl());
-		entity.setName(dto.getName());
-		entity.setPrice(dto.getPrice());
-
-		entity.getCategories().clear();
-
+	private void copyDtoToEntity(UserDTO dto, User entity) {
+		
+		entity.setEmail(dto.getEmail());
+		entity.setFirstName(dto.getFirstName());
+		entity.setLastName(dto.getLastName());
+		entity.getRoles().clear();
 
 		//@formatter:off
-		Set<Category> set = dto.getCategories().stream()
-											   .map(p -> categoryRepository.getOne(p.getId()))
-											   .collect(Collectors.toSet());
-		 entity.getCategories().addAll(set);
+		Set<Role> set = dto.getRoles().stream()
+									  .map(r -> roleRepository.getOne(r.getId()))
+									  .collect(Collectors.toSet());
+		 entity.getRoles().addAll(set);
 		//@formatter:on		
 
 	}
