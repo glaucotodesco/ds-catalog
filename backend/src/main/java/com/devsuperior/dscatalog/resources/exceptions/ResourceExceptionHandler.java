@@ -9,6 +9,7 @@ import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ResourceExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request){
+    public ResponseEntity<StandardError> entityNotFoundEXception(EntityNotFoundException e, HttpServletRequest request){
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError();
         err.setTimeStamp(Instant.now());
@@ -42,5 +43,24 @@ public class ResourceExceptionHandler {
     }
     
 
+        
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationError> validationException(MethodArgumentNotValidException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ValidationError validationError = new ValidationError();
+        validationError.setTimeStamp(Instant.now());
+        validationError.setStatus(status.value());
+        validationError.setError("Validation exception");
+        validationError.setMessage(e.getMessage());
+        validationError.setPath(request.getRequestURI());
 
+        //@formatter:off
+        e.getBindingResult().getFieldErrors()
+                            .forEach( error -> validationError
+                                              .addError(error.getField(), error.getDefaultMessage())
+                                    );
+        //@formatter:on
+        
+        return ResponseEntity.status(status).body(validationError);
+  }
 }
