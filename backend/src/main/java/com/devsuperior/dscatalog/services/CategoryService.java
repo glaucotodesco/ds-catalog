@@ -1,19 +1,18 @@
 package com.devsuperior.dscatalog.services;
 
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -30,7 +29,7 @@ public class CategoryService {
 		@Transactional(readOnly = true)
 		public CategoryDTO findById(Long id) {
 			Optional<Category> op = categoryRepository.findById(id);
-			Category category = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Entity not found"));
+			Category category = op.orElseThrow(()-> new EntityNotFoundException("Entity Not Found " + id));
 			return new CategoryDTO(category);
 		}
 
@@ -49,7 +48,7 @@ public class CategoryService {
 				return new CategoryDTO(entity);
 			}
 			catch(EntityNotFoundException e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Id not found " + id);
+				throw new  EntityNotFoundException("Entity Not Found " + id);
 			}
 		}
 
@@ -59,10 +58,10 @@ public class CategoryService {
 				categoryRepository.deleteById(id);
 			}
 			catch(EmptyResultDataAccessException e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Id not found " + id); 
+				throw new EntityNotFoundException("Entity Not Found " + id); 
 			}
 			catch(DataIntegrityViolationException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Integrity violation");
+				throw new DatabaseException("Integrity violation");
 			}
 			
 			

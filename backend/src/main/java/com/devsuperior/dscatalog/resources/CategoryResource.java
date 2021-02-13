@@ -39,8 +39,10 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(dtoPage);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<CategoryDTO> update(@PathVariable Long id){
+
+
+	@GetMapping("{id}")
+	public ResponseEntity<CategoryDTO> getById(@PathVariable Long id){
 		CategoryDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}

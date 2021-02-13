@@ -1,20 +1,2 @@
-1. Uso de tipos primitivos ou objetos nos atributos de uma classe
-https://www.baeldung.com/java-primitives-vs-objects
-
-
-
-2. Tratamento de exception: (aula 01-18)
-Uso do import org.springframework.web.server.ResponseStatusException;
-
-
-		@Transactional(readOnly = true)
-		public CategoryDTO findById(Long id) {
-			Optional<Category> op = categoryRepository.findById(id);
-			Category category = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Entity not found"));
-			return new CategoryDTO(category);
-		}
-		
-		
-3. 
 		
 

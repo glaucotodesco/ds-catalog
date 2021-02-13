@@ -10,15 +10,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
+import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 
 @Service
 public class ProductService {
@@ -39,7 +38,7 @@ public class ProductService {
 	public ProductDTO findById(Long id) {
 		Optional<Product> op = repository.findById(id);
 		Product entity = op
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity Product not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Entity Not Found " + id));
 		return new ProductDTO(entity, entity.getCategories());
 	}
 
@@ -51,7 +50,7 @@ public class ProductService {
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+			throw new EntityNotFoundException("Entity Not Found");
 		}
 	
 	}
@@ -64,7 +63,7 @@ public class ProductService {
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+			throw new EntityNotFoundException("Entity Not Found " + id);
 		}
 	
 	}
@@ -92,9 +91,9 @@ public class ProductService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id not found " + id);
+			throw new EntityNotFoundException("Entity Not Found " + id);
 		} catch (DataIntegrityViolationException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Integrity violation");
+			throw new DatabaseException("Integrity violation");
 		}
 	}
 
