@@ -50,6 +50,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .antMatchers(ADMIN).hasRole("ADMIN")
             .anyRequest().authenticated();
         //@formatter:on
+
+        //Add Cors
+        http.cors().configurationSource(corsConfigurationSource());
     }
 
     @Override
