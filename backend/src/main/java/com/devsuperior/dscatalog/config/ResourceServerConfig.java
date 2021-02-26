@@ -52,14 +52,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         //@formatter:on
 
         //Add Cors
-        http.cors().configurationSource(corsConfigurationSource());
+       // http.cors().configurationSource(corsConfigurationSource());
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
     }
-
+/*
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
@@ -80,5 +80,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
-
+*/
 }
