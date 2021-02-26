@@ -60,6 +60,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.tokenStore(tokenStore);
     }
 /*
+/*
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
