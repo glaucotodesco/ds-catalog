@@ -1,8 +1,9 @@
 import ButtonIcon from 'core/components/Buttonicon';
+import { saveSessionData } from 'core/utils/auth';
 import { makeLogin } from 'core/utils/request';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthCard from '../Card';
 import './styles.scss';
 
@@ -17,38 +18,69 @@ const Login = () => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
 
+    const history = useHistory();
+
     const onSubmit: SubmitHandler<Inputs> = data => {
         makeLogin(data)
-        .then( response => {
-            setHasError(false)
-        })
-        .catch( () => setHasError(true))
+            .then(response => {
+                saveSessionData(response.data);
+                history.push('/admin');
+                setHasError(false);
+
+            })
+            .catch(() =>
+                setHasError(true)
+            )
     }
 
     return (
         <AuthCard title="Login">
-           
+
             {hasError && (
                 <div className="alert alert-danger mt-5">
                     Usuário ou senha inválidos!
                 </div>
             )}
 
-            
-
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-                <input
-                    type="email"
-                    {...register("username", { required: true })}
-                    className="form-control input-base margin-bottom-30"
-                    placeholder="E-mail"
-                />
-                <input
-                    type="password"
-                    {...register("password",{ required: true })}
-                    className="form-control input-base"
-                    placeholder="Senha"
-                />
+
+                <div className="margin-bottom-30">
+                    <input
+                        type="email"
+                        {...register("username", {
+                            required: "Campo obrigatório", 
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Email inválido"
+                            }
+                        })}
+                        className={`form-control input-base ${errors.username ? 'is-invalid': ''} `}
+                        placeholder="E-mail"
+                    />
+                    {errors.username && (<div className="invalid-feedback d-block">
+                        {errors.username.message}
+                    </div>
+                    )
+                    }
+                </div>
+
+                <div>
+                    <input
+                        type="password"
+                        {...register("password", { 
+                            required: "Campo Obrigatório" 
+                        })}
+                        className={`form-control input-base ${errors.password ? 'is-invalid': ''} `}
+                        placeholder="Senha"
+                    />
+
+                    {errors.password && (<div className="invalid-feedback d-block">
+                        {errors.password.message}
+                    </div>
+                    )
+                    }
+
+                </div>
                 <Link to="/admin/auth/recover" className="login-link-recover">
                     Esqueci a senha?
                 </Link>
