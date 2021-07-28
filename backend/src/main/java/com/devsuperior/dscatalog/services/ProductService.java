@@ -41,7 +41,8 @@ public class ProductService {
 	public Page<ProductDTO> findAllPage(PageRequest pageRequest, Long categoryId, String name) {
 		List<Category> categories = categoryId == 0 ? null : Arrays.asList(categoryRepository.getOne(categoryId));
 		Page<Product> list = repository.find(categories, name, pageRequest);
-		return list.map(p -> new ProductDTO(p));
+		repository.find(list.toList());
+		return list.map(p -> new ProductDTO(p, p.getCategories()));
 	}
 
 	@Transactional(readOnly = true)
@@ -57,6 +58,11 @@ public class ProductService {
 		try {
 			Product entity = new Product(dto);
 			copyDtoToEntity(dto, entity);
+
+			if(entity.getCategories().size() == 0){
+				entity.getCategories().add(categoryRepository.getOne(1L));
+			}
+
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {
@@ -70,6 +76,11 @@ public class ProductService {
 		try {
 			Product entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
+			
+			if(entity.getCategories().size() == 0){
+				entity.getCategories().add(categoryRepository.getOne(1L));
+			}
+			
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {

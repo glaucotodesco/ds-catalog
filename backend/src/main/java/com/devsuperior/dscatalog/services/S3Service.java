@@ -16,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class S3Service {
 
-	@Autowired
+	//@Autowired
 	private AmazonS3 s3client;
 
-	@Value("${s3.bucket}")
+	//@Value("${s3.bucket}")
 	private String bucketName;
 
 	public URL uploadFile(MultipartFile file) {
