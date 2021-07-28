@@ -1,5 +1,7 @@
 import { makePrivateRequest } from 'core/utils/request';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BaseForm from '../../BaseForm';
 import './styles.scss';
 
@@ -7,76 +9,105 @@ import './styles.scss';
 type FormState = {
     name: string;
     price: string;
-    category: string;
     description: string;
+    imageUrl: string;
 }
-
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
 const Form = () => {
 
-    const [formData, setFormData] = useState<FormState>({name:'', price:'',category:'', description:''});
-    
+    const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
+    const history = useHistory();
 
-    const handleOnChange = (event: FormEvent) => {
-        const name  = event.target.name;
-        const value = event.target.value;
-        setFormData( data => ({...data, [name]: value}));
-    }
+    const onSubmit = (data: FormState) => {
+        makePrivateRequest({ url: '/products', method: 'POST', data })
+            .then(() => {
+                toast.info('Produto cadastrado com sucesso!');
+                history.push('/admin/products');
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        
-        const payLoad = {
-            ...formData,
-            imgUrl: 'https://static.netshoes.com.br/produtos/console-playstation-5-digital-edition-ps5-sony/14/D32-2448-014/D32-2448-014_zoom1.jpg',
-            categories : [{id:formData.category}]
-        }
-        
-        makePrivateRequest( {url: '/products', method: 'POST', data: payLoad})
-        .then( () => {
-            setFormData({name: '', category: '', price: '', description: ''});
-        });
+            })
+            .catch( () => {
+                toast.error('Erro ao cadastrar um produto');
+            });
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title="Cadastrar Produto">
                 <div className="row">
                     <div className="col-6">
-                        <input className="form-control mb-5"
-                            value={formData.name}
-                            name="name"
-                            onChange={handleOnChange}
-                            placeholder="Nome do Produto"
-                        />
-                        <select
-                            value={formData.category}
-                            className="form-control mb-5"
-                            name="category"
-                            onChange={handleOnChange}
-                        >
-                                <option value="1">Livros</option>
-                                <option value="3">Computadore</option>
-                                <option value="2">Eletrônicos</option>
-                        </select>
 
-                        <input className="form-control"
-                            value={formData.price}
-                            name="price"
-                            onChange={handleOnChange}
-                            placeholder="Preço do Produto"
-                        />
+                        <div className="margin-bottom-30">
+                            <input
+
+
+                                {...register("name", {
+                                    required: "Campo Obrigatório",
+                                    minLength: { value: 5, message: 'O campo deve ter no mínimo 5 caracteres!'},
+                                    maxLength: { value: 60, message: 'O campo deve ter no máximo 60 caracteres!'},
+                                })}
+
+                                name="name"
+                                className="form-control input-base"
+                                type="text"
+                                placeholder="Nome do Produto"
+                            />
+                            {errors.name && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.name.message}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="margin-bottom-30">
+                            <input className="form-control input-base"
+                                {...register("price", {
+                                    required: "Campo Obrigatório"
+                                })}
+
+                                type="number"
+                                name="price"
+                                placeholder="Preço do Produto"
+                            />
+                            {errors.price && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.price.message}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="margin-bottom-30">
+                            <input
+                                {...register("imageUrl", {
+                                    required: "Campo Obrigatório"
+                                })}
+                                className="form-control input-base"
+                                name="imageUrl"
+                                placeholder="Imagem do produto"
+                            />
+                            {errors.imageUrl && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.imageUrl.message}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className="col-6">
-                        <textarea 
-                            className="form-control"
+
+                        <textarea
+                            {...register("description", {
+                                required: "Campo Obrigatório"
+                            })}
+                            className="form-control input-base"
                             name="description"
-                            value={formData.description}
                             cols={30}
                             rows={10}
-                            onChange={handleOnChange}
-                            />
+                            placeholder="Descrição"
+                        />
+                        {errors.description && (
+                            <div className="invalid-feedback d-block">
+                                {errors.description.message}
+                            </div>
+                        )}
                     </div>
                 </div>
             </BaseForm>

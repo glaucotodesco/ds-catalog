@@ -7,7 +7,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthCard from '../Card';
 import './styles.scss';
 
-type Inputs = {
+type FormState = {
     username: string,
     password: string,
 };
@@ -20,12 +20,12 @@ type LocationState ={
 const Login = () => {
 
     const [hasError, setHasError] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormState>();
     const history = useHistory();
     const location = useLocation <LocationState>();
     const { from } = location.state || {from: {pathname: "/admin"}};
 
-    const onSubmit: SubmitHandler<Inputs> = data => {
+    const onSubmit: SubmitHandler<FormState> = data => {
         makeLogin(data)
             .then(response => {
                 saveSessionData(response.data);
@@ -62,11 +62,11 @@ const Login = () => {
                         className={`form-control input-base ${errors.username ? 'is-invalid': ''} `}
                         placeholder="E-mail"
                     />
-                    {errors.username && (<div className="invalid-feedback d-block">
-                        {errors.username.message}
-                    </div>
-                    )
-                    }
+                    {errors.username && (
+                        <div className="invalid-feedback d-block">
+                            {errors.username.message}
+                        </div>
+                    )}
                 </div>
 
                 <div>
