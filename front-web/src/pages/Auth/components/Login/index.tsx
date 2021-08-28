@@ -20,7 +20,7 @@ type LocationState ={
 const Login = () => {
 
     const [hasError, setHasError] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormState>();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
     const history = useHistory();
     const location = useLocation <LocationState>();
     const { from } = location.state || {from: {pathname: "/admin"}};

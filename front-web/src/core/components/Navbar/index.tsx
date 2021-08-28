@@ -46,7 +46,7 @@ const Navbar = () => {
                 {currentUser && (
                     <>
                         {currentUser}
-                        <a  href="#" 
+                        <a  href="/" 
                             className="nav-link active d-inline" 
                             onClick={handleLogout}> 
                             LOGOUT

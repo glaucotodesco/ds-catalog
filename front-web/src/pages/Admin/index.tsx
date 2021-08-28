@@ -1,11 +1,8 @@
-import React from 'react';
 import {Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Products from './components/Products';
 import PrivateRoute from 'pages/Admin/components/Routes/PrivateRoute';
-
 import './styles.scss';
-
 
 const Admin = () => (
     <div className="admin-container">
