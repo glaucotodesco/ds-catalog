@@ -9,7 +9,8 @@ const colors = {
     primary: "#407BEE",
     secondary: "#33569B",
     bluePill: "#407BFF61",
-    red: "#DF5753"
+    red: "#DF5753",
+    borderGray:  "#E1E1E1"
 }
 
 const text = StyleSheet.create({
@@ -34,7 +35,7 @@ const text = StyleSheet.create({
         color: colors.white,
         marginLeft: 20,
     },
-    productName:{
+    productName: {
         fontSize: 16,
         fontWeight: "bold"
     },
@@ -43,16 +44,16 @@ const text = StyleSheet.create({
         fontWeight: "400",
         color: colors.mediumGray
     },
-    productPrice :{
+    productPrice: {
         fontSize: 30,
-        fontWeight:"bold",
+        fontWeight: "bold",
         color: colors.primary
     }
 
 });
 
 const theme = StyleSheet.create({
-    
+
     container: {
         flex: 1,
         justifyContent: "center",
@@ -87,7 +88,7 @@ const theme = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        borderRadius: 10,   
+        borderRadius: 10,
     },
     arrowContainer: {
         backgroundColor: colors.secondary,
@@ -104,7 +105,7 @@ const theme = StyleSheet.create({
         padding: 10
     },
 
-    productCard : {
+    productCard: {
         width: "100%",
         backgroundColor: colors.white,
         borderRadius: 20,
@@ -118,21 +119,45 @@ const theme = StyleSheet.create({
         marginVertical: 10,
         alignItems: "center",
         justifyContent: "space-around"
-    },  
+    },
 
-    productDescription : {
-     width: "100%",
-     padding: 20,
-     borderTopColor: colors.lightGray,
-     borderTopWidth: 1
+    productDescription: {
+        width: "100%",
+        padding: 20,
+        borderTopColor: colors.lightGray,
+        borderTopWidth: 1
     },
 
     priceContainer: {
-         flexDirection: "row",
-         marginTop: 10
+        flexDirection: "row",
+        marginTop: 10
 
+    },
+
+    //Search Input
+    inputContainer: {
+        width: "100%",
+        height: 60,
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        shadowColor: colors.red,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        alignItems: "center",
+        marginVertical: 12.5,
+        paddingVertical: 10
+    },
+    searchInput: {
+        width: "90%",
+        height: 40,
+        borderBottomWidth: 0.5,
+        borderBottomColor: colors.borderGray
     }
-    
+
 })
 
 
