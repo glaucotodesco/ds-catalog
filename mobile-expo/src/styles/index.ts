@@ -66,7 +66,7 @@ const theme = StyleSheet.create({
         backgroundColor: colors.white,
         elevation: 3,
         borderRadius: 20,
-        shadowColor: colors.red,
+        shadowColor: colors.mediumGray,
         shadowOffset: {
             height: 2,
             width: 0
@@ -109,7 +109,7 @@ const theme = StyleSheet.create({
         width: "100%",
         backgroundColor: colors.white,
         borderRadius: 20,
-        shadowColor: colors.red,
+        shadowColor: colors.mediumGray,
         shadowOffset: {
             height: 2,
             width: 0
@@ -140,7 +140,7 @@ const theme = StyleSheet.create({
         height: 60,
         backgroundColor: colors.white,
         borderRadius: 20,
-        shadowColor: colors.red,
+        shadowColor: colors.mediumGray,
         shadowOffset: {
             height: 2,
             width: 0
@@ -156,6 +156,11 @@ const theme = StyleSheet.create({
         height: 40,
         borderBottomWidth: 0.5,
         borderBottomColor: colors.borderGray
+    },
+    productImage :{
+        width:140,
+        height: 140,
+        margin: 16
     }
 
 })

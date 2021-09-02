@@ -3,9 +3,9 @@ import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-
 import { text, theme } from '../styles';
 
 interface ProductProps {
-    id: Number;
-    name: String;
-    imgUrl: ImageSourcePropType;
+    id: number;
+    name: string;
+    imgUrl: string;
     price: Number
 }
 
@@ -13,7 +13,7 @@ const ProductCard = (product: ProductProps) => {
     return (
         <View>
             <TouchableOpacity style={theme.productCard}>
-                <Image source={product.imgUrl} />
+                <Image source={{ uri: product.imgUrl}}  style={theme.productImage}  />
                 <View style={theme.productDescription}>
                     <Text style={text.productName}>{product.name}</Text>
                     <View style={theme.priceContainer}>
