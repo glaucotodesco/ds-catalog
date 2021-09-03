@@ -38,8 +38,7 @@ const Catalog = () => {
         loading ? 
         (<ActivityIndicator size="large"/>): 
         data.map((product: Product) => (
-          
-            <ProductCard key={product.id} {...product}/>
+            <ProductCard key={product.id} {...product} />
           )
       )}
     </ScrollView>
