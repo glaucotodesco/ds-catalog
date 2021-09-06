@@ -1,65 +1,68 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Image, ActivityIndicator, TouchableOpacity, ScrollView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import { api } from '../services';
-import { theme } from '../styles';
+import { text, theme } from '../styles';
 import leftArrow from '../assets/arrow2.png';
+import { useNavigation } from '@react-navigation/core';
 
-const ProductDetails = ( { route: 
-                            { params:
-                                 {id}
-                            }
-                         }
- ) => {
+const ProductDetails = ({ route:
+    { params:
+        { id }
+    }
+}
+) => {
 
-  const [product, setProduct] = useState({
-      id:null,
-      name: null,
-      description: null,
-      price: null,
-      imgUrl: null,
-      date: null,
-      categories: [],
-  });
+    const [product, setProduct] = useState({
+        id: null,
+        name: null,
+        description: null,
+        price: null,
+        imgUrl: null,
+        date: null,
+        categories: [],
+    });
 
-  const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
-  async function loadProductData() {
-    setLoading(true);
-    const res = await api.get(`/products/${id}`);
-    setProduct(res.data);
-    setLoading(false);
-  }
+    const [loading, setLoading] = useState(false);
 
-  useEffect(()=> {
-    loadProductData();
-  },[]);
+    async function loadProductData() {
+        setLoading(true);
+        const res = await api.get(`/products/${id}`);
+        setProduct(res.data);
+        setLoading(false);
+    }
 
-  return (
-        loading ? 
-        (<ActivityIndicator size="large"/>)        : 
-        (<View >
-            <TouchableOpacity>
-                <Image source={leftArrow} />
-                <Text>Voltar</Text>
-            </TouchableOpacity>
-            <View>
-                 <Image source={{uri: product.imgUrl}} style={{width:150, height:150}}/>
-            </View>
-            <Text>{product.name}</Text>
-            <View style={theme.priceContainer}>
-                <Text>R$</Text>
-                <Text>{product.price}</Text>
-            </View>
-            <ScrollView>
-                <Text>{product.description}</Text>
-                <Text>{product.description}</Text>
-                <Text>{product.description}</Text>
-                <Text>{product.description}</Text>
-                <Text>{product.description}</Text>
-            </ScrollView>
-        </View>)
+    useEffect(() => {
+        loadProductData();
+    }, []);
 
-   )
+    return (
+        <View style={theme.detailsContainer}>
+            {
+                loading ?
+                    (<ActivityIndicator size="large" />) :
+                    (<View style={theme.detailsCard}>
+                            <TouchableOpacity style={theme.goBackContainer} onPress={ () => navigation.goBack()} >
+                                <Image source={leftArrow} />
+                                <Text style={text.goBackText}>Voltar</Text>
+                            </TouchableOpacity>
+                            <View style={theme.productImageContainer}>
+                                <Image source={{ uri: product.imgUrl }} style={theme.productImage} />
+                            </View>
+                            <Text style={ text.productDetailsName}>{product.name}</Text>
+                            <View style={theme.priceContainer}>
+                                <Text style="{text.currency}">R$</Text>
+                                <Text style={text.productPrice}>{product.price}</Text>
+                            </View>
+                            <ScrollView style={theme.scroolTextContainer}>
+                                <Text style={text.productDescripion}>{product.description}</Text>
+                            </ScrollView>
+                    </View>)
+            }
+        </View>
+
+    )
 };
 
 export default ProductDetails;

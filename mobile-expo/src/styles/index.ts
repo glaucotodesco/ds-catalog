@@ -48,7 +48,29 @@ const text = StyleSheet.create({
         fontSize: 30,
         fontWeight: "bold",
         color: colors.primary
+    },
+    goBackText :{
+        fontSize: 18,
+        fontWeight: "bold",
+        color: colors.darkGray,
+        textTransform: "uppercase",
+        marginLeft: 16
+
+    },
+    productDetailsName: {
+        fontSize: 30,
+        fontWeight: "bold",
+        marginTop: 10,
+        borderWidth: 0.05,
+        color: colors.darkGray
+    },
+    productDescripion:{
+        fontSize: 16,
+        fontWeight: "400",
+        color: colors.mediumGray
+
     }
+
 
 });
 
@@ -161,6 +183,53 @@ const theme = StyleSheet.create({
         width:140,
         height: 140,
         margin: 16
+    },
+
+    
+    //Product Details
+    detailsContainer :{
+        backgroundColor: colors.white,
+        padding: 20
+    },
+
+    detailsCard : {
+        width: "100%",
+        height: "100%",
+        backgroundColor: colors.white,
+        elevation: 3,
+        borderRadius: 20,
+        shadowColor: colors.mediumGray,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        justifyContent: "space-around",
+        padding: 20
+    },
+    productImageContainer: {
+        width: "100%",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: colors.borderGray,
+        borderRadius: 20
+    },
+    goBackContainer :{
+        width: 290,
+        flexDirection: "row",
+        alignItems: "center",
+        marginVertical: 10,
+        justifyContent: "flex-start"
+
+    },
+    scroolTextContainer :{
+        marginVertical: 20,
+        padding: 20,
+        borderWidth: 0.0,
+        borderRadius: 10,
+        borderColor: colors.darkGray
+
     }
 
 })
