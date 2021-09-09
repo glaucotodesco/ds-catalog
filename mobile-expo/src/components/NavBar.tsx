@@ -36,7 +36,7 @@ const NavBar = () => {
                         <Text style={[nav.textOption,route.name === 'Catalog' ? nav.textActive: null]}>Catalogo</Text>
                     </TouchableNativeFeedback>
 
-                    <TouchableNativeFeedback style={nav.option}>
+                    <TouchableNativeFeedback style={nav.option} onPress={() => navigate('Login')}>
                         <Text style={[nav.textOption,route.name === 'ADM' ? nav.textActive: null]}>ADM</Text>
                     </TouchableNativeFeedback>
                 </View>) 
