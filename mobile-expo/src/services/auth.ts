@@ -36,8 +36,22 @@ async function setAsyncKeys(key: string, value: string) {
 export async function isAutenticated() {
     try {
         const token = await AsyncStorage.getItem("@token");
-         token ? console.warn("logado"): console.warn("deslogado");
+        return token ? true : false;
     } catch (e) {
         console.warn(e);
     }
 }
+
+export async function doLogout() {
+
+    try {
+        AsyncStorage.removeItem("@token");
+    }
+    catch(e){
+        console.warn(e);
+    }
+}
+
+
+
+    

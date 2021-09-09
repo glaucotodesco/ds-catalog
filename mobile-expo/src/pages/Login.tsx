@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import { text, theme } from '../styles';
 
@@ -7,24 +8,22 @@ import eyesClosed from "../assets/eyes-closed.png";
 import arrow from "../assets/arrow.png";
 import { isAutenticated, login } from '../services/auth';
 
+
 const Login = () => {
 
+    const navigation = useNavigation();
     const [hidePassword, setHidePassword] = useState(true);
     const [userInfo, setUserInfo] = useState(
         {
-            username: "",
-            password: ""
+            username: "alex@gmail.com",
+            password: "123456"
         }
     );
 
-
-    useEffect( () => {
-        isAutenticated();
-    },[]);
-
+    
     async function handleLogin() {
         const data = await login(userInfo);
-        console.warn(data);
+        navigation.navigate("DashBoard");
     }
 
     return (

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native"
+import { color } from "react-native-reanimated";
 
 
 const deviceWidth = Dimensions.get("window").width;
@@ -114,6 +115,19 @@ const nav = StyleSheet.create({
     },
     textActive:{
         fontWeight: "bold"
+    },
+    logoutBtn:{
+        width: 60,
+        height: 30,
+        borderWidth: 1,
+        borderColor: colors.white,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 20
+    },
+    logoutText :{
+        color: colors.white   
     }
 
 

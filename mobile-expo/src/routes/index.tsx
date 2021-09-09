@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { NavBar } from '../components';
-import { Home, Catalog, Login, ProductDetails } from '../pages';
+import { Home, Catalog, Login, ProductDetails, DashBoard } from '../pages';
 
 import { colors, nav } from '../styles';
 
@@ -30,6 +30,7 @@ const Routes = () => {
             <Stack.Screen name="Catalog" component={Catalog} />
             <Stack.Screen name="ProductDetails" component={ProductDetails} />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="DashBoard" component={DashBoard} />
         </Stack.Navigator>
       
     )
