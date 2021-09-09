@@ -36,7 +36,7 @@ const Catalog = () => {
       {
         
         loading ? 
-        (<ActivityIndicator size="large"/>): 
+        (<ActivityIndicator size="large"  color="#0000ff" />): 
         data.map((product: Product) => (
             <ProductCard key={product.id} {...product} />
           )

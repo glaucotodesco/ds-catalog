@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet, Dimensions } from "react-native"
+
+
+const deviceWidth = Dimensions.get("window").width;
 
 const colors = {
     white: "#FFFFFF",
@@ -74,6 +77,44 @@ const text = StyleSheet.create({
 
 });
 
+
+
+const nav = StyleSheet.create({
+    leftText: { 
+        color: colors.white,
+        fontWeight: "bold",
+        marginLeft: 20
+    },
+    drawer : {
+        marginRight: 20,
+        
+    },
+    options: {
+        width: deviceWidth,
+        height: 120,
+        backgroundColor: colors.primary,
+        marginTop: 125,
+        marginRight: -20,
+        padding: 20,
+        justifyContent: "space-between",
+        
+    },
+    option: {
+        paddingVertical: 5
+    },
+    textOption :{
+        color : colors.white,
+        textTransform: "uppercase"
+    },
+    textActive:{
+        fontWeight: "bold"
+    }
+
+
+
+});
+
+
 const theme = StyleSheet.create({
 
     container: {
@@ -86,7 +127,6 @@ const theme = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: colors.white,
-        elevation: 3,
         borderRadius: 20,
         shadowColor: colors.mediumGray,
         shadowOffset: {
@@ -196,7 +236,6 @@ const theme = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: colors.white,
-        elevation: 3,
         borderRadius: 20,
         shadowColor: colors.mediumGray,
         shadowOffset: {
@@ -230,9 +269,11 @@ const theme = StyleSheet.create({
         borderRadius: 10,
         borderColor: colors.darkGray
 
-    }
+    },
 
 })
 
 
-export { colors, theme, text };
+
+
+export { colors, theme, text, nav };

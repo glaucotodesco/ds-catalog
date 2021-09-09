@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { api } from '../services';
 import { text, theme } from '../styles';
 import leftArrow from '../assets/arrow2.png';
-import { useNavigation } from '@react-navigation/core';
+
 
 const ProductDetails = ({ route:
     { params:
@@ -52,7 +54,7 @@ const ProductDetails = ({ route:
                             </View>
                             <Text style={ text.productDetailsName}>{product.name}</Text>
                             <View style={theme.priceContainer}>
-                                <Text style="{text.currency}">R$</Text>
+                                <Text style={text.currency}>R$</Text>
                                 <Text style={text.productPrice}>{product.price}</Text>
                             </View>
                             <ScrollView style={theme.scroolTextContainer}>
