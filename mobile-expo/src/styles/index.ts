@@ -80,11 +80,24 @@ const text = StyleSheet.create({
         color: colors.darkGray,
         textTransform: "uppercase",
         marginBottom: 50
+    },
+    addButtonText : {
+        color: colors.white,
+        textTransform: "uppercase",
+        fontWeight: "bold"
+    },
+    deleteText :{
+        textTransform: "uppercase",
+        fontWeight: "bold",
+        color: colors.red,
+    },
+    editText: {
+        textTransform: "uppercase",
+        fontWeight: "bold",
+        color: colors.mediumGray,
     }
 
 });
-
-
 
 const nav = StyleSheet.create({
     leftText: { 
@@ -134,9 +147,7 @@ const nav = StyleSheet.create({
 
 });
 
-
 const theme = StyleSheet.create({
-
     container: {
         flex: 1,
         justifyContent: "center",
@@ -162,7 +173,9 @@ const theme = StyleSheet.create({
         width: 313,
         height: 225
     },
-    textContainer: { paddingHorizontal: 20 },
+    textContainer: { 
+        paddingHorizontal: 20 
+    },
     primaryButton: {
         width: 290,
         height: 50,
@@ -182,11 +195,9 @@ const theme = StyleSheet.create({
         justifyContent: "center"
 
     },
-
     scrollContainer: {
         padding: 10
     },
-
     productCard: {
         width: "100%",
         backgroundColor: colors.white,
@@ -202,21 +213,17 @@ const theme = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-around"
     },
-
     productDescription: {
         width: "100%",
         padding: 20,
         borderTopColor: colors.lightGray,
         borderTopWidth: 1
     },
-
     priceContainer: {
         flexDirection: "row",
         marginTop: 10
 
     },
-
-    //Search Input
     inputContainer: {
         width: "100%",
         height: 60,
@@ -244,14 +251,11 @@ const theme = StyleSheet.create({
         height: 140,
         margin: 16
     },
-
-    
     //Product Details
     detailsContainer :{
         backgroundColor: colors.white,
         padding: 20
     },
-
     detailsCard : {
         width: "100%",
         height: "100%",
@@ -328,12 +332,74 @@ const theme = StyleSheet.create({
 
     toggle: {
         margin: -40
+    },
+    buttonContainer :{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        width: "100%"
+    },
+    deleteBtn :{
+        width: "46%",
+        height: 40,
+        borderWidth: 1,
+        borderColor: colors.red,
+        marginVertical: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10
+    },
+    editBtn :{
+        width: "46%",
+        height: 40,
+        borderWidth: 1,
+        borderColor: colors.mediumGray,
+        marginVertical: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10
+    },
+});
+
+const tabbar = StyleSheet.create({
+    container:{
+        width: deviceWidth,
+        height: 80,
+        backgroundColor: colors.white,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around"
+    },
+    pill:{
+        padding: 15,
+        backgroundColor: colors.lightGray,
+        borderRadius: 30
+    },
+    pillActive:{
+        backgroundColor: colors.bluePill
+    },
+    pillText :{
+        fontWeight: "bold",
+        color: colors.mediumGray
+    },
+    pillTextActive:{
+        color: colors.primary
+    }
+});
+
+const admin = StyleSheet.create({
+    container :{
+        padding: 10,
+    },
+    addButton :{
+        width: "100%",
+        height: 50,
+        backgroundColor: colors.primary,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent:"center"
     }
 
+});
 
-})
-
-
-
-
-export { colors, theme, text, nav };
+export { colors, theme, text, nav, tabbar, admin };

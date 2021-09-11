@@ -1,13 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-native';
-import { text, theme } from '../styles';
+import { text, theme, admin } from '../styles';
 
 interface ProductProps {
     id: number;
     name: string;
     imgUrl: string;
-    price: Number
+    price: Number;
+    role ?:string;
 }
 
 const ProductCard = (product: ProductProps) => {
@@ -24,6 +25,20 @@ const ProductCard = (product: ProductProps) => {
                         <Text style={text.productPrice}>{product.price}</Text>
                     </View>
                 </View>
+
+                {
+                    product.role === 'admin' && (
+                       <View style={theme.buttonContainer}>
+                            <TouchableOpacity style={theme.deleteBtn}>
+                                <Text style={text.deleteText}>Excluir</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={theme.editBtn}>
+                                <Text style={text.editText}>Editar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
+
             </TouchableOpacity>
         </View>
 

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text } from 'react-native';
-import { theme } from '../../styles';
-
+import { Categories, Products, Users } from '..';
+import { TabBar } from '../../components';
 
 const DashBoard = () => {
 
+    const [screen, setScreen] = useState("products");
     return (
-        <View style={theme.container}>
-            <Text>Tela Admin</Text>
+        <View>
+            <TabBar screen={screen} setScreen={setScreen} />
+            { screen === 'products'     && <Products />     }
+            { screen === 'categories'   && <Categories />   }
+            { screen === 'users'        && <Users />        }
         </View>
     )
 
