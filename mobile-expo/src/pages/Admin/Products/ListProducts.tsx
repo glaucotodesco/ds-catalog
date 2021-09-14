@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Product } from '../../core/types/Types';
-import { SearchInput, ProductCard } from "../../components";
-import { api, getProducts } from '../../services';
-import { admin, text } from '../../styles';
-const Products = () => {
+import { Product } from '../../../core/types/Types';
+import { SearchInput, ProductCard } from "../../../components";
+import { api, getProducts } from '../../../services';
+import { admin, text } from '../../../styles';
+
+interface ListProductsProps {
+        setScreen: Function;
+}
+
+
+const ListProducts = (props : ListProductsProps) => {
 
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+
+    const {setScreen} = props;
     
     async function fillProducts() {
         setLoading(true);
@@ -32,7 +40,7 @@ const Products = () => {
 
     return (
         <ScrollView contentContainerStyle={admin.container}>
-            <TouchableOpacity style={admin.addButton}>
+            <TouchableOpacity style={admin.addButton}  onPress={ () => setScreen("newProduct")}>
                 <Text style={text.addButtonText}>Adicionar</Text>
             </TouchableOpacity>
 
@@ -55,4 +63,4 @@ const Products = () => {
 
 }
 
-export default Products;
+export default ListProducts;
