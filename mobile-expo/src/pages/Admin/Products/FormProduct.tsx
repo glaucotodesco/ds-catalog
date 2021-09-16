@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Modal, TextInput, ActivityIndicator, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Modal, TextInput, ActivityIndicator, Image, Alert } from 'react-native';
+import Toast from 'react-native-tiny-toast';
+
 import arrow from "../../../assets/arrow2.png";
+import { createProduct, getCategories } from '../../../services';
 import { theme, text } from "../../../styles";
 
 interface ListProductsProps {
@@ -12,32 +15,44 @@ const FormProduct = (props: ListProductsProps) => {
     const [loading, setLoading] = useState(false);
     const [edit, setEdit] = useState(false);
     const [showCategories, setShowCategories] = useState(false);
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            name: "Computador 1"
-        },
-        {
-            id: 2,
-            name: "Computador 2"
-        },
-        {
-            id: 3,
-            name: "Computador 3"
-        },
-        {
-            id: 4,
-            name: "Computador 4"
-        },
-    ]);
-
+    const [categories, setCategories] = useState([]);
+        
     const [product, setProduct] = useState({
-        name: null,
-        description: null,
-        imgUrl: null,
-        price: null,
-        categories: null
+        name: "",
+        description: "",
+        imgUrl: "",
+        price: 0,
+        categories : []
     });
+
+    async function loadCategories() {
+        setLoading(true);
+        const res = await getCategories();
+        setCategories(res.data.content);
+        setLoading(false);
+    }
+
+    function handleSave(){
+        !edit && newProduct();
+    }
+
+    async function newProduct() {
+        for(const [index] of product.categories.entries()){
+            delete product.categories[index].name;
+        }
+        
+        setLoading(true);
+        try {
+            await createProduct(product);
+            Toast.showSuccess("Produto criado com sucesso!");
+        } catch (error) {
+            Toast.show("Erro ao salvar o produto!");
+        }
+        setLoading(false);
+    }
+    
+
+    useEffect(() => {loadCategories()},[]);
 
     return (
 
@@ -61,7 +76,7 @@ const FormProduct = (props: ListProductsProps) => {
                                                 style={theme.modalItem}
                                                 key={cat.id}
                                                 onPress={() => {
-                                                    setProduct({ ...product, categories: cat.name });
+                                                    setProduct({ ...product, categories: [cat] });
                                                     setShowCategories(!showCategories);
                                                 }}>
                                                 <Text>{cat.name}</Text>
@@ -81,17 +96,26 @@ const FormProduct = (props: ListProductsProps) => {
                                     <Text style={text.goBackText}>Voltar</Text>
                             </TouchableOpacity>
 
-                            <TextInput placeholder="Nome do Produto" style={theme.formInput} />
+                            <TextInput placeholder="Nome do Produto" 
+                                       style={theme.formInput} 
+                                       value={product.name}
+                                       onChangeText={ (e) => setProduct({...product, name: e} )}
+                            />
                             
                             <TouchableOpacity 
                                 style={theme.selectInput}
                                 onPress={() => setShowCategories(!showCategories)}>
-                                <Text style={product.categories === null ? {color: "#aeaeae"} : {color: "#000000"} }   >
-                                    {product.categories === null ? "Escolha uma categoria" : product.categories}
+                                <Text style={product.categories.length === 0 ? {color: "#aeaeae"} : {color: "#000000"} }   >
+                                    {product.categories.length === 0 ? "Escolha uma categoria" : product.categories[0].name}
                                 </Text>
                             </TouchableOpacity>
 
-                            <TextInput placeholder="Preço" style={theme.formInput}/>
+                            <TextInput  placeholder="Preço" 
+                                        style={theme.formInput}
+                                        value={String(product.price)}
+                                        onChangeText={ (e) => setProduct({...product, price: parseFloat(e)} )}
+
+                            />
                             
                             <TouchableOpacity activeOpacity={0.8} style={theme.uploadBtn}>
                                 <Text style={text.uploadText}>
@@ -103,14 +127,39 @@ const FormProduct = (props: ListProductsProps) => {
                             </Text>
                             
                             
-                            <TextInput multiline placeholder="Descrição" style={theme.textArea}/>
+                            <TextInput  multiline
+                                        placeholder="Descrição" 
+                                        style={theme.textArea}
+                                        value={product.description}
+                                        onChangeText={ (e) => setProduct({...product, description: e} )}
+                            />
                             
                             <View style={theme.buttonContainer}>
-                                <TouchableOpacity style={theme.deleteBtn}>
+                                <TouchableOpacity   style={theme.deleteBtn}
+                                                    onPress={ () => {
+                                                        Alert.alert("Deseja cancelar",
+                                                                    "Os dados não serão salvos",
+                                                                    [
+                                                                        {
+                                                                            text:"Voltar",
+                                                                            style:"cancel"
+                                                                        },
+                                                                        {
+                                                                            text: "Confirma",
+                                                                            style: "default",
+                                                                            onPress: () => props.setScreen('listProducts')
+                                                                        
+                                                                        }
+                                                                    ]
+                                                        )
+                                                    }}
+                                >
                                     <Text style={text.deleteText}>Cancelar</Text>
                                 </TouchableOpacity>
                                 
-                                <TouchableOpacity style={theme.saveBtn}>
+                                <TouchableOpacity   style={theme.saveBtn}
+                                                    onPress={() => handleSave()}
+                                >
                                     <Text style={text.saveText}>Salvar</Text>
                                 </TouchableOpacity>
                             </View>
@@ -124,3 +173,4 @@ const FormProduct = (props: ListProductsProps) => {
 }
 
 export default FormProduct;
+

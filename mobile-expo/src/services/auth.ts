@@ -52,6 +52,10 @@ export async function doLogout() {
     }
 }
 
+export async function userToken() {
+    const token = await AsyncStorage.getItem("@token");
+    return token;
+}
 
 
     
